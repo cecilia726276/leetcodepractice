@@ -31,6 +31,9 @@ public class Search_Matrix {
     }
 
     public boolean searchMatrix(int[][] matrix, int target){
+        if (matrix.length == 0 || matrix[0].length == 0){
+            return false;
+        }
         int row = matrix.length;
         int column = matrix[0].length;
         int current_row = 0;
