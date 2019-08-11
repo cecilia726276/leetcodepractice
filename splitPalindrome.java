@@ -5,7 +5,7 @@ import java.util.List;
  * @create 2019-08-05 12:22
  */
 public class splitPalindrome {
-//    public static boolean isPalindrome(String s) {
+//    public static boolean string_problem.isPalindrome(String s) {
 //        int j = s.length()-1;
 //        for (int i = 0; i < s.length(); i++){
 //            int ascii = (int) s.charAt(i);
