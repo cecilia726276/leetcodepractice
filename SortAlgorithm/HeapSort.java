@@ -1,44 +1,106 @@
 package SortAlgorithm;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
-/**
- * @Author SYZ
- * @create 2019-08-08 03:05
- */
 public class HeapSort {
-//    public static void sort(Comparable[] a) {
-//        int N = a.length;
-//        int h = 1;
-//        while (h < N / 3) {
-//            h = 3 * h + 1;// 1, 4, 13, 40, ...
-//        }
-//        while (h >= 1) {
-//            for (int i = h; i < N; i++) {
-//                for (int j = i;  j >= h && compareElement(a[j],  a[j - h]); j -= h) {
-//                    exch(a, j, j - h);
-//                }
-//            }
-//            h = h / 3;
-//        }
-//    }
-//
-//    public static boolean compareElement(Comparable v, Comparable w) {
-//        return v.compareTo(w) < 0;
-//    }
-//
-//    public static void exch(Comparable[] a, int i, int j) {
-//        Comparable t = a[i];
-//        a[i] = a[j];
-//        a[j] = t;
-//    }
-//
-//    public static void main(String[] args) {
-//        Integer[] array = new Integer[]{15,0,6,9,3};
-//        sort(array);
-//        for (int i = 0; i < array.length; i++) {
-//            System.out.println(array[i]);
-//        }
-//    }
 
+
+    private ArrayList<Integer> A;
+
+    private int heapSize;
+
+    public ArrayList<Integer> getA() {
+        return A;
+    }
+
+    public void setA(ArrayList<Integer> a) {
+        A = a;
+    }
+
+    public int getHeapSize() {
+        return heapSize;
+    }
+
+    public void setHeapSize(int heapSize) {
+        this.heapSize = heapSize;
+    }
+
+    public int left(int i) {
+        return i * 2 + 1;
+    }
+
+    // 右节点下标
+    public int right(int i) {
+        return i * 2 + 2;
+    }
+
+    // 父节点下标
+    public int parent(int i) {
+        return (i - 1) / 2;
+    }
+
+    // Method 1
+    public void MaxHeapify(HeapSort heap, int i) {
+        int l = left(i);
+        int r = right(i);
+        int largest = i;
+        if (l < heap.getHeapSize() && heap.getA().get(l) > heap.getA().get(i)) {
+            largest = l;
+        }
+        if (r < heap.getHeapSize() && heap.getA().get(r) > heap.getA().get(largest)) {
+            largest = r;
+        }
+        if (largest != i) {
+            int temp = heap.getA().get(i);
+            heap.getA().set(i, heap.getA().get(largest));
+            heap.getA().set(largest, temp);
+        } else {
+            return;
+        }
+        MaxHeapify(heap, largest);
+    }
+
+    // Method 2
+    public void MaxHeapifyNoRecursive(HeapSort heap, int i) {
+        while (true) {
+            int l = left(i);
+            int r = right(i);
+            int heapSize = heap.getHeapSize();
+            ArrayList<Integer> A = heap.getA();
+            int largest = i;
+            if (l < heapSize && A.get(l) > A.get(i)) {
+                largest = l;
+            }
+            if (r < heapSize && A.get(r) > A.get(largest)) {
+                largest = r;
+            }
+            if (largest != i) {
+                int temp = A.get(i);
+                A.set(i, A.get(largest));
+                A.set(largest, temp);
+            } else{
+                return;
+            }
+            i = largest;
+        }
+    }
+
+    public void BuildMaxHeap(HeapSort heap) {
+        int heapsize = heap.getHeapSize();
+        for (int i = (heapsize - 1) / 2; i>= 0; i--) {
+            MaxHeapify(heap, i);
+        }
+    }
+
+    public void heapSort(HeapSort heap) {
+        BuildMaxHeap(heap);
+        int length = heap.getA().size(), heapSize = heap.getHeapSize();
+        for (int i = length - 1; i > 0; i--) {
+            int temp = heap.getA().get(i);
+            heap.getA().set(i, heap.getA().get(0));
+            heap.getA().set(0,temp);
+            heap.setHeapSize(--heapSize);
+            MaxHeapify(heap, 0);
+        }
+    }
 }
